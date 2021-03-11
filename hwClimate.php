@@ -11,19 +11,31 @@ while ($data = fgetcsv($file)) {
     $maskList[] = $data;
 }
 fclose($file);
-
-
-$array = searchMed($maskList, $argv[1]);
-usort($array, "medSort");
-$array = deleteRow($array);
-$climate->table($array);
+if($argv[1] == null) {
+    echo "請重新執行!";
+}
+else {
+    $array = searchMed($maskList, $argv[1]);
+} 
+if($array != null) {
+    usort($array, "medSort");
+    $array = deleteRow($array);
+    $climate->table($array);
+}
+else {
+    echo "請重新執行!";
+}
 
 
 function searchMed($maskList, $where)
 {
+    $array = [];
     foreach ($maskList as $arr) {
-        if (strpos($arr[2], (string)$where) !== false) {
+        if(strstr($arr[2], (string)$where) !== false) {
             $array[] = $arr;
+        }
+        else {
+            continue;
         }
     }
     return $array;
