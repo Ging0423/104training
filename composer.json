@@ -1,0 +1,6 @@
+{
+    "require": {
+        "nesbot/carbon": "^2.46",
+        "league/climate": "^3.7"
+    }
+}
