@@ -1,10 +1,16 @@
 <?php
+/*
+*@$climate composer套件
+*@var $maskList 讀取出來的csv檔儲存為array
+*@var $array 儲存轉換過searchMed的array
+*@var $file 開啟衛福部maskdata.csv檔案
+*
+*/
 
 require_once __DIR__ . "/vendor/autoload.php";
 $climate = new \League\CLImate\CLImate();
 $array = [];
-$res = [];
-$maskList = [];
+$maskList =  [];
 $file =  fopen("https://data.nhi.gov.tw/resource/mask/maskdata.csv", 'r');
 
 while ($data = fgetcsv($file)) {
@@ -26,7 +32,13 @@ else {
     echo "請重新執行!";
 }
 
-
+/*
+*搜尋輸入地區的地點
+*
+*＠var $array 儲存符合條件之資料
+*
+*@return array
+*/
 function searchMed($maskList, $where)
 {
     $array = [];
@@ -41,11 +53,17 @@ function searchMed($maskList, $where)
     return $array;
 }
 
+/**usort以array[4]做大小排列*/
 function medSort($a, $b)
 {
     return $a[4] < $b[4];
 }
 
+/*
+*刪除多餘的行，留下需要的檔案
+*
+*@ return array
+*/
 function deleteRow($array)
 {
     for ($i = 0; $i < count($array); $i++) {
